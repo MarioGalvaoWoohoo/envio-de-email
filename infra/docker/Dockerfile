@@ -26,15 +26,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install extensions
 RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
+# Install Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy existing application directory contents
 COPY . /var/www
-
-# Ensure the bootstrap/cache directory exists and is writable
-RUN mkdir -p /var/www/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/bootstrap/cache
 
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . .
