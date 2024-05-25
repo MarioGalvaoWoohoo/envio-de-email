@@ -28,6 +28,21 @@ services:
     networks:
       - laravel
 
+  db:
+    image: postgres
+    container_name: laravel-db
+    restart: always
+    environment:
+      POSTGRES_DATABASE: send-mail
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres2024
+    volumes:
+      - ./infra/db/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - laravel
+
   redis:
     image: redis:latest
     container_name: laravel-redis
